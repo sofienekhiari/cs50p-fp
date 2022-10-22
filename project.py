@@ -65,6 +65,15 @@ def add_person():
             )
 
 
+def filter_mentees(people_list, language):
+    """Filter the mentees list depending on the chosen language"""
+    return [
+        person
+        for person in people_list
+        if person["generally_preferred_language"] == language
+    ]
+
+
 def col_1_content():
     """Defines the content of the first column"""
     st.write("# MM Assigner")
