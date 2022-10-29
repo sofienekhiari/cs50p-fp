@@ -9,7 +9,7 @@ from pycountry import languages as LANGUAGES
 DATA = {"mentors": [], "mentees": []}
 
 # Define a main function that just defines the general format
-def main():
+def main():  # DONE
     """Main function"""
     set_page_config()
     col_1, col_2, col_3 = st.columns(3)
@@ -22,14 +22,21 @@ def main():
 
 
 # Set the streamlit page configuration
-def set_page_config():
+def set_page_config():  # DONE
     """Set the main page configuration"""
     st.set_page_config(
         page_title="MM Assigner", layout="wide", initial_sidebar_state="collapsed"
     )
 
 
-def add_person():
+def col_1_content():  # DONE
+    """Defines the content of the first column"""
+    st.write("# MM Assigner")
+    st.write("This app allows you to assigns mentors to mentees.")
+    add_person()
+
+
+def add_person():  # WAITING FOR DATABASE INTRODUCTION
     """Function that adds a new person"""
     languages_list = [language.name for language in list(LANGUAGES)]
     with st.form("add_person", clear_on_submit=True):
@@ -65,7 +72,18 @@ def add_person():
             )
 
 
-def filter_mentees(people_list, language):
+def col_2_content():  # WAITING FOR DATABASE INTRODUCTION
+    """Defines the content of the second column"""
+    st.write("Col 2 content")
+    st.json(DATA)
+
+
+def col_3_content():  # IN PROGRESS
+    """Defines the content of the third column"""
+    st.write("Col 3 content")
+
+
+def filter_mentees(people_list, language):  # WAITING FOR TESTING
     """Filter the mentees list depending on the chosen language"""
     return [
         person
