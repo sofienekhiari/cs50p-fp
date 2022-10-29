@@ -25,3 +25,8 @@ In the case of this app, roles consist of simple `strings` instead of possible `
 This design choice is explained by the later usage of the `GUI` interface by the users and not the functions themselves directly and the relatively small size of the project so the introduction of the `enums` didn't seem necessary.
 
 No verification of the data (number of characters, email format) has been implemented in this version but it could be implemented in the future.
+
+#### The `filter_mentees` function
+
+This function takes the `list of mentees` as an input and the specified `language`.
+It then creates a filtered list of mentees that have the same `language` value and returns it.
