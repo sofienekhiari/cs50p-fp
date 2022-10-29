@@ -74,23 +74,38 @@ def filter_mentees(people_list, language):
     ]
 
 
-def col_1_content():
-    """Defines the content of the first column"""
-    st.write("# MM Assigner")
-    st.write("This app allows you to assigns mentors to mentees.")
-    add_person()
+def assign_mentors_mentees():  # IN PROGRESS
+    """Function that assigns mentors to mentees
+
+     Algorithm
+    -----------
+
+    # Create a variable to hold the combinations
+    # Create a variable to hold the non-assigned people
+    # Get the list of mentors
+    # Get the list of mentees
+    # Repeat indefinitely:
+        # If the list of mentors is empty or the list of mentees is empty:
+            # Leave the loop
+        # Randomly select a mentor (take it out of the mentors list)
+        # Create a local (per loop) copy of the mentees list
+        # If the mentor prefers a certain language:
+            # Filter the mentees list depending on the language in question
+            # If the result of the filter is not empty:
+                # Assign the filtered list to the local copy
+        # Create a combination of the mentor and a random choice
+        # from the local copy of the mentees list (take the latter
+        # out of the mentees list)
+        # Add the combination to the combinations variable
+    # Add all the remaining people to the non-assigned people list
+    # Return the combinations variable and the remaining people one
+
+    """
 
 
-def col_2_content():
-    """Defines the content of the second column"""
-    st.write("Col 2 content")
-    st.json(DATA)
+def notify_participants():
+    """Function that generates the emails to send to the different participants"""
 
 
-def col_3_content():
-    """Defines the content of the third column"""
-    st.write("Col 3 content")
-
-
-if __name__ == "__main__":
+if __name__ == "__main__":  # DONE
     main()
