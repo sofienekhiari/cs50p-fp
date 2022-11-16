@@ -30,3 +30,9 @@ No verification of the data (number of characters, email format) has been implem
 
 This function takes the `list of mentees` as an input and the specified `language`.
 It then creates a filtered list of mentees that have the same `language` value and returns it.
+
+#### The `assign_mentors_mentees` function
+
+This function gets the `list of mentors` and `list of mentees` and assigns mentors to mentees in a random way, possibly taking the `language` into account. It returns the list of assigned couples and possibly the list of people that were not assigned to other ones.
+
+Since the lists are generally very small in this use case, no detailed thought has been put into optimising the efficiency of the assigning algorithm.
