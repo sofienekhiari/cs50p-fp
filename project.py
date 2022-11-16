@@ -122,7 +122,33 @@ def assign_mentors_mentees():  # IN PROGRESS
 
 
 def notify_participants():
-    """Function that generates the emails to send to the different participants"""
+    """Function that generates the emails to
+    send to the different participants
+
+    Algorithm
+    -----------
+
+    # Create a variable to hold the notification messages
+    # Get the list of combinations
+    # Get the list of remaining people
+    # For every combination in the list of combinations:
+        # Get the mentor and the mentee in seperate variables
+        # Store the right notification message for the mentor in the notification
+        # messages variable
+        # Store the right notification message for the mentee in the notification
+        # messages variable
+    # For every combination in the list of remaning people:
+        # Get the mentor and the mentee in seperate variables
+        # Store the right notification message for the mentor in the notification
+        # messages variable
+        # Store the right notification message for the mentee in the notification
+        # messages variable
+    # Create a variable to hold the human readable output format
+    # Format the notification messages to be human readable and store the result in the
+    # human readable output format variable
+    # Store the result in a file and output a notification
+
+    """
 
 
 if __name__ == "__main__":  # DONE
