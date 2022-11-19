@@ -1,5 +1,5 @@
 """Test file for the MM Assigner app"""
-# pylint: disable=wildcard-import,undefined-variable,no-name-in-module
+# pylint: disable=wildcard-import,unused-wildcard-import,undefined-variable,no-name-in-module
 
 from test_data import *
 from project import filter_mentees
