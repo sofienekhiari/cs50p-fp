@@ -4,6 +4,7 @@
 # pylint: disable=import-error
 import streamlit as st
 from pycountry import languages as LANGUAGES
+from tinydb import TinyDB # pylint: disable=unused-import
 
 # Set data variable for dev (will be replaced by the session state)
 DATA = {"mentors": [], "mentees": []}
@@ -76,6 +77,33 @@ def col_2_content():  # WAITING FOR DATABASE INTRODUCTION
     """Defines the content of the second column"""
     st.write("Col 2 content")
     st.json(DATA)
+
+class MMDatabase():  # IN PROGRESS
+    """Class that takes charge of interacting with the database
+
+    Algorithm
+    -----------
+
+    # Init function
+        # Initiate the instance by assigning TinyDB('.mm_assigner_db.json') to it.
+        # The database is basically comprised of a dictionary containing two key, one
+        # for the mentors and one for mentees. You need to make sure when initiating
+        # the database that this structure is already present in the database. For
+        # that, you need to make sure that there's a dictionnary with two keys, one for
+        # the mentors and one for the mentees, and that there's a list corresponding to
+        # each key.
+
+    # Add mentee function
+        # Check that the person passed to this function is a mentee
+        # Generate proper formatting for the entry in the database
+        # Add the entry to the database
+
+    # Add mentor function
+        # Check that the person passed to this function is a mentor
+        # Generate proper formatting for the entry in the database
+        # Add the entry to the database$
+
+    """
 
 
 def col_3_content():  # IN PROGRESS
