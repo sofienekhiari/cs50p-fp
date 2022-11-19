@@ -74,7 +74,13 @@ def add_person():  # WAITING FOR DATABASE INTRODUCTION
 
 
 def col_2_content():  # WAITING FOR DATABASE INTRODUCTION
-    """Defines the content of the second column"""
+    """Defines the content of the second column
+
+    The following is only displayed after the assignment is performed:
+    # Button to perform the assignment (disabled until there are at least two people).
+    # Data about the mentors and mentees displayed in a dataframe widget st.dataframe.
+
+    """
     st.write("Col 2 content")
     st.json(DATA)
 
@@ -107,7 +113,18 @@ class MMDatabase():  # IN PROGRESS
 
 
 def col_3_content():  # IN PROGRESS
-    """Defines the content of the third column"""
+    """Defines the content of the third column
+
+    # Progress bar that is initially set to 0 but then used during the assignment to
+        # display the progress.
+
+    The following is only displayed after the assignment is performed:
+    # Dataframe containing the names of the people in each combination (mentor, mentee).
+    # Numbers of mentors and mentees (seperately) that were not assigned in a
+        # combination.
+    # Button that would allow the user to download the notification file.
+
+    """
     st.write("Col 3 content")
 
 
