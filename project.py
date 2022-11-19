@@ -149,7 +149,7 @@ def assign_mentors_mentees():  # IN PROGRESS
     """
 
 
-def notify_participants():
+def notify_participants():  # IN PROGRESS
     """Function that generates the emails to
     send to the different participants
 
