@@ -4,7 +4,7 @@
 # pylint: disable=import-error
 import streamlit as st
 from pycountry import languages as LANGUAGES
-from tinydb import TinyDB # pylint: disable=unused-import
+from tinydb import TinyDB  # pylint: disable=unused-import
 
 # Set data variable for dev (will be replaced by the session state)
 DATA = {"mentors": [], "mentees": []}
@@ -84,7 +84,8 @@ def col_2_content():  # WAITING FOR DATABASE INTRODUCTION
     st.write("Col 2 content")
     st.json(DATA)
 
-class MMDatabase():  # IN PROGRESS
+
+class MMDatabase:  # IN PROGRESS
     """Class that takes charge of interacting with the database
 
     Algorithm
