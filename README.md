@@ -35,14 +35,19 @@ It then creates a filtered list of mentees that have the same `language` value a
 
 #### The `assign_mentors_mentees` function
 
-This function gets the `list of mentors` and `list of mentees` and assigns mentors to mentees in a random way, possibly taking the `language` into account. It returns the list of assigned couples and possibly the list of people that were not assigned to other ones.
+This function gets the `list of mentors` and `list of mentees` and assigns mentors to mentees in a random way, possibly taking the `language` into account.
+It returns the list of assigned couples and possibly the list of people that were not assigned to other ones.
 
 Since the lists are generally very small in this use case, no detailed thought has been put into optimising the efficiency of the assigning algorithm.
 
 #### The `notify_participants` function
 
-This function gets the result of the `assign_mentors_mentees` function and creates a `notification message` for every person depending on their role and if a combination was found for them. Then, it `formats` all the messages so that they are `human readable` and outputs them in a `file` so that they can be easily sent by the student in charge.
+This function gets the result of the `assign_mentors_mentees` function and creates a `notification message` for every person depending on their role and if a combination was found for them.
+Then, it `formats` all the messages so that they are `human readable` and outputs them in a `file` so that they can be easily sent by the student in charge.
 
 #### The `MMDatabase` class
 
-This class encapsulates the needed code to interact with the `database`. Its sole purpose is to simplify the code and reduce redundancy. There are only functions to save `mentors` and `mentees` to the database, no other data and no function(s) to retreive data from the database. This is because the data retrieval process and code are pretty straightforward and don't need encapsulation.
+This class encapsulates the needed code to interact with the `database`.
+Its sole purpose is to simplify the code and reduce redundancy.
+There are only functions to save `mentors` and `mentees` to the database, no other data and no function(s) to retreive data from the database.
+This is because the data retrieval process and code are pretty straightforward and don't need encapsulation.
