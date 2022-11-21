@@ -85,32 +85,40 @@ def col_2_content():  # WAITING FOR DATABASE INTRODUCTION
     st.json(DATA)
 
 
-class MMDatabase:  # IN PROGRESS
-    """Class that takes charge of interacting with the database
+class MMDatabase:  # DONE
+    """Class that interacts with the database"""
 
-    Algorithm
-    -----------
+    def __init__(self):
+        """Function that initiates the database and the two tables"""
+        self.db = TinyDB(".mm_assigner_db.json")  # pylint: disable=invalid-name
+        self.mentors = self.db.table("mentors")
+        self.mentees = self.db.table("mentees")
 
-    # Init function
-        # Initiate the instance by assigning TinyDB('.mm_assigner_db.json') to it.
-        # The database is basically comprised of a dictionary containing two key, one
-        # for the mentors and one for mentees. You need to make sure when initiating
-        # the database that this structure is already present in the database. For
-        # that, you need to make sure that there's a dictionnary with two keys, one for
-        # the mentors and one for the mentees, and that there's a list corresponding to
-        # each key.
+    def add_mentee(
+        self, name, email, generally_preferred_language, prefers_preferred_language
+    ):
+        """Function that adds a mentee to the database"""
+        self.mentees.insert(
+            {
+                "name": name,
+                "email": email,
+                "generally_preferred_language": generally_preferred_language,
+                "prefers_preferred_language": prefers_preferred_language,
+            }
+        )
 
-    # Add mentee function
-        # Check that the person passed to this function is a mentee
-        # Generate proper formatting for the entry in the database
-        # Add the entry to the database
-
-    # Add mentor function
-        # Check that the person passed to this function is a mentor
-        # Generate proper formatting for the entry in the database
-        # Add the entry to the database$
-
-    """
+    def add_mentors(
+        self, name, email, generally_preferred_language, prefers_preferred_language
+    ):
+        """Function that adds a mentor to the database"""
+        self.mentors.insert(
+            {
+                "name": name,
+                "email": email,
+                "generally_preferred_language": generally_preferred_language,
+                "prefers_preferred_language": prefers_preferred_language,
+            }
+        )
 
 
 def col_3_content():  # IN PROGRESS
