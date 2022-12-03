@@ -2,6 +2,7 @@
 
 # Import relevant modules
 # pylint: disable=import-error
+import os
 import random
 import streamlit as st
 from pycountry import languages as LANGUAGES
@@ -61,10 +62,14 @@ mma_db = MMDatabase()
 
 
 # Create a variable to hold the combinations
-st.session_state.combinations_assigned = []
+if not st.session_state.combinations_assigned:
+    st.session_state.combinations_assigned = []
 # Create a variable to hold the non-assigned people
-st.session_state.combinations_non_assigned = []
-
+if not st.session_state.combinations_non_assigned:
+    st.session_state.combinations_non_assigned = []
+# Create a variable to hold the state of the generation button
+if not st.session_state.generation_button_disabled:
+    st.session_state.generation_button_disabled = True
 
 # Define a main function that just defines the general format
 def main():  # DONE
@@ -145,6 +150,7 @@ def col_2_content():  # IN PROGRESS
     )
     if assigner_button_clicked:
         assign_mentors_mentees()
+        st.session_state.generation_button_disabled = False
     st.write("## Mentors")
     st.json(mma_db.mentors.all())
     st.write("## Mentees")
@@ -165,6 +171,11 @@ def col_3_content():  # IN PROGRESS
 
     """
     st.write("# Col 3 content")
+    generation_button_clicked = st.button(
+        "Generate notifications", disabled=st.session_state.generation_button_disabled
+    )
+    if generation_button_clicked:
+        notify_participants()
     st.write("## combinations_assigned")
     st.json(st.session_state.combinations_assigned)
     st.write("## combinations_non_assigned")
@@ -186,6 +197,9 @@ def assign_mentors_mentees():  # WAITING FOR TESTING
     mentors_list = mma_db.mentors.all()
     # Get the list of mentees
     mentees_list = mma_db.mentees.all()
+    # Reset the combinations variables
+    st.session_state.combinations_assigned = []
+    st.session_state.combinations_non_assigned = []
     # Repeat indefinitely:
     while True:
         # If the list of mentors is empty or the list of mentees is empty:
@@ -284,34 +298,62 @@ MM Project Team
 """
 
 
-def notify_participants():  # IN PROGRESS
-    """Function that generates the emails to
-    send to the different participants
+def save_notification_to_file(file_name, notification): # DONE
+    """Function that saves the specified notification to the specified file"""
+    output_directory = "Exported notifications"
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+    with open(
+        f"{output_directory}/{file_name}.txt", "w", encoding="utf-8"
+    ) as output_file:
+        output_file.write(notification)
 
-    Algorithm
-    -----------
 
-    # Create a variable to hold the notification messages
-    # Get the list of combinations
-    # Get the list of remaining people
-    # For every combination in the list of combinations:
-        # Get the mentor and the mentee in seperate variables
-        # Store the right notification message for the mentor in the notification
-        # messages variable
-        # Store the right notification message for the mentee in the notification
-        # messages variable
-    # For every combination in the list of remaning people:
-        # Get the mentor and the mentee in seperate variables
-        # Store the right notification message for the mentor in the notification
-        # messages variable
-        # Store the right notification message for the mentee in the notification
-        # messages variable
-    # Create a variable to hold the human readable output format
-    # Format the notification messages to be human readable and store the result in the
-    # human readable output format variable
-    # Store the result in a file and output a notification
-
-    """
+def notify_participants():  # DONE
+    """Function that generates the emails to send to the different participants"""
+    # Generate and save a notification for every participant
+    # in the list of combinations
+    for mentor, mentee in st.session_state.combinations_assigned:
+        # Save the mentor's notification
+        save_notification_to_file(
+            file_name = mentor["name"],
+            notification = generate_participant_notification(
+                participant_name=mentor["name"],
+                participant_email=mentor["email"],
+                participant_assigned=True,
+                other_participant_name=mentee["name"],
+                other_participant_email=mentee["email"],
+                other_participant_role=mentee["role"],
+            )
+        )
+        # Save the mentee's notification
+        save_notification_to_file(
+            file_name = mentee["name"],
+            notification = generate_participant_notification(
+                participant_name=mentee["name"],
+                participant_email=mentee["email"],
+                participant_assigned=True,
+                other_participant_name=mentor["name"],
+                other_participant_email=mentor["email"],
+                other_participant_role=mentor["role"],
+            )
+        )
+    # Generate and save a notification for every participant
+    # in the list of remaining people
+    for participant in st.session_state.combinations_non_assigned:
+        save_notification_to_file(
+            participant["name"],
+            generate_participant_notification(
+                participant_name=participant["name"],
+                participant_email=participant["email"],
+                participant_assigned=False,
+                other_participant_name="",
+                other_participant_email="",
+                other_participant_role="Mentor"
+                if participant["role"] == "Mentee"
+                else "Mentee",
+            ),
+        )
 
 
 if __name__ == "__main__":  # DONE
