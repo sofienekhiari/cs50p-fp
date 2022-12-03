@@ -2,6 +2,7 @@
 
 # Import relevant modules
 # pylint: disable=import-error
+import random
 import streamlit as st
 from pycountry import languages as LANGUAGES
 from tinydb import TinyDB  # pylint: disable=unused-import
@@ -47,6 +48,13 @@ class MMDatabase:  # DONE
 
 # Initiate the database
 mma_db = MMDatabase()
+
+
+# Create a variable to hold the combinations
+st.session_state.combinations_assigned = []
+# Create a variable to hold the non-assigned people
+st.session_state.combinations_non_assigned = []
+
 
 # Define a main function that just defines the general format
 def main():  # DONE
@@ -102,7 +110,7 @@ def add_person():  # DONE
             )
 
 
-def col_2_content():  # WAITING FOR DATABASE INTRODUCTION
+def col_2_content():  # IN PROGRESS
     """Defines the content of the second column
 
     The following is only displayed after the assignment is performed:
@@ -110,44 +118,19 @@ def col_2_content():  # WAITING FOR DATABASE INTRODUCTION
     # Data about the mentors and mentees displayed in a dataframe widget st.dataframe.
 
     """
-    st.write("Col 2 content")
-    st.json(DATA)
-
-
-class MMDatabase:  # DONE
-    """Class that interacts with the database"""
-
-    def __init__(self):
-        """Function that initiates the database and the two tables"""
-        self.db = TinyDB(".mm_assigner_db.json")  # pylint: disable=invalid-name
-        self.mentors = self.db.table("mentors")
-        self.mentees = self.db.table("mentees")
-
-    def add_mentee(
-        self, name, email, generally_preferred_language, prefers_preferred_language
-    ):
-        """Function that adds a mentee to the database"""
-        self.mentees.insert(
-            {
-                "name": name,
-                "email": email,
-                "generally_preferred_language": generally_preferred_language,
-                "prefers_preferred_language": prefers_preferred_language,
-            }
-        )
-
-    def add_mentors(
-        self, name, email, generally_preferred_language, prefers_preferred_language
-    ):
-        """Function that adds a mentor to the database"""
-        self.mentors.insert(
-            {
-                "name": name,
-                "email": email,
-                "generally_preferred_language": generally_preferred_language,
-                "prefers_preferred_language": prefers_preferred_language,
-            }
-        )
+    st.write("# Col 2 content")
+    assigner_button_disabled = True
+    if len(mma_db.mentees.all()) > 0 and len(mma_db.mentors.all()) > 0:
+        assigner_button_disabled = False
+    assigner_button_clicked = st.button(
+        "Assign mentors & mentees", disabled=assigner_button_disabled
+    )
+    if assigner_button_clicked:
+        assign_mentors_mentees()
+    st.write("## Mentors")
+    st.json(mma_db.mentors.all())
+    st.write("## Mentees")
+    st.json(mma_db.mentees.all())
 
 
 def col_3_content():  # IN PROGRESS
@@ -163,7 +146,11 @@ def col_3_content():  # IN PROGRESS
     # Button that would allow the user to download the notification file.
 
     """
-    st.write("Col 3 content")
+    st.write("# Col 3 content")
+    st.write("## combinations_assigned")
+    st.json(st.session_state.combinations_assigned)
+    st.write("## combinations_non_assigned")
+    st.json(st.session_state.combinations_non_assigned)
 
 
 def filter_mentees(people_list, language):  # WAITING FOR TESTING
@@ -175,33 +162,44 @@ def filter_mentees(people_list, language):  # WAITING FOR TESTING
     ]
 
 
-def assign_mentors_mentees():  # IN PROGRESS
-    """Function that assigns mentors to mentees
-
-     Algorithm
-    -----------
-
-    # Create a variable to hold the combinations
-    # Create a variable to hold the non-assigned people
+def assign_mentors_mentees():  # WAITING FOR TESTING
+    """Function that assigns mentors to mentees"""
     # Get the list of mentors
+    mentors_list = mma_db.mentors.all()
     # Get the list of mentees
+    mentees_list = mma_db.mentees.all()
     # Repeat indefinitely:
+    while True:
         # If the list of mentors is empty or the list of mentees is empty:
+        if not mentors_list or not mentees_list:
             # Leave the loop
+            break
         # Randomly select a mentor (take it out of the mentors list)
+        mentor = random.choice(mentors_list)
+        mentors_list.remove(mentor)
         # Create a local (per loop) copy of the mentees list
+        local_mentees_list = mentees_list.copy()
         # If the mentor prefers a certain language:
+        if mentor["prefers_preferred_language"]:
             # Filter the mentees list depending on the language in question
+            filtered_mentees_list = [
+                mentee
+                for mentee in local_mentees_list
+                if mentee["generally_preferred_language"]
+                == mentor["generally_preferred_language"]
+            ]
             # If the result of the filter is not empty:
+            if filtered_mentees_list:
                 # Assign the filtered list to the local copy
-        # Create a combination of the mentor and a random choice
-        # from the local copy of the mentees list (take the latter
+                local_mentees_list = filtered_mentees_list
+        # Get a random choice from the local copy of the mentees list (take it
         # out of the mentees list)
+        mentee = random.choice(local_mentees_list)
+        mentees_list.remove(mentee)
         # Add the combination to the combinations variable
+        st.session_state.combinations_assigned.append((mentor, mentee))
     # Add all the remaining people to the non-assigned people list
-    # Return the combinations variable and the remaining people one
-
-    """
+    st.session_state.combinations_non_assigned = mentors_list + mentees_list
 
 
 def notify_participants():  # IN PROGRESS
