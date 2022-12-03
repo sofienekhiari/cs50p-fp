@@ -220,6 +220,70 @@ def assign_mentors_mentees():  # WAITING FOR TESTING
     st.session_state.combinations_non_assigned = mentors_list + mentees_list
 
 
+def generate_participant_notification(  # pylint: disable=too-many-arguments
+    participant_name,
+    participant_email,
+    participant_assigned,
+    other_participant_name,
+    other_participant_email,
+    other_participant_role,
+):
+    """Function that generates the appropriate notification for every participant"""
+
+    # Generate the message subject
+    message_subject = ""
+    if participant_assigned:
+        message_subject = f"🎉 Congrats {participant_name}, you were assigned a {other_participant_role.lower()} 🎊"
+    else:
+        message_subject = (
+            f"🔥 Hey {participant_name}, we've got news about the MM program!"
+        )
+
+    # Generate the message content
+    specific_message_content = ""
+    if participant_assigned:
+        specific_message_content = f"""
+You were assigned {other_participant_name} as a {other_participant_role.lower()}.
+You can contact them on the following e-mail address: {other_participant_email}.
+"""
+    else:
+        specific_message_content = f"""
+Due to a shortage of participants, you were not assigned a {other_participant_role.lower()}.
+You can still however join one of your peers/friends with their {other_participant_role.lower()} if you want.        
+"""
+    return f"""
++------------------+
+| PARTICIPANT NAME |
++------------------+
+
+{participant_name}
+
++-------------------+
+| PARTICIPANT EMAIL |
++-------------------+
+
+{participant_email}
+
++-----------------+
+| MESSAGE SUBJECT |
++-----------------+
+
+{message_subject}
+
++-----------------+
+| MESSAGE CONTENT |
++-----------------+
+
+Dear {participant_name},
+{specific_message_content}
+Don't hesitate to contact us if you have any question.
+
+Kind regards,
+MM Project Team
+
+"""
+
+
 def notify_participants():  # IN PROGRESS
     """Function that generates the emails to
     send to the different participants
