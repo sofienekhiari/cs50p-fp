@@ -6,8 +6,47 @@ import streamlit as st
 from pycountry import languages as LANGUAGES
 from tinydb import TinyDB  # pylint: disable=unused-import
 
-# Set data variable for dev (will be replaced by the session state)
-DATA = {"mentors": [], "mentees": []}
+
+class MMDatabase:  # DONE
+    """Class that interacts with the database"""
+
+    def __init__(self):
+        """Function that initiates the database and the two tables"""
+        self.db = TinyDB(".mm_assigner_db.json")  # pylint: disable=invalid-name
+        self.mentors = self.db.table("mentors")
+        self.mentees = self.db.table("mentees")
+
+    def add_mentee(
+        self, role, name, email, generally_preferred_language, prefers_preferred_language
+    ):
+        """Function that adds a mentee to the database"""
+        self.mentees.insert(
+            {
+                "role": role,
+                "name": name,
+                "email": email,
+                "generally_preferred_language": generally_preferred_language,
+                "prefers_preferred_language": prefers_preferred_language,
+            }
+        )
+
+    def add_mentor(
+        self, role, name, email, generally_preferred_language, prefers_preferred_language
+    ):
+        """Function that adds a mentor to the database"""
+        self.mentors.insert(
+            {
+                "role": role,
+                "name": name,
+                "email": email,
+                "generally_preferred_language": generally_preferred_language,
+                "prefers_preferred_language": prefers_preferred_language,
+            }
+        )
+
+
+# Initiate the database
+mma_db = MMDatabase()
 
 # Define a main function that just defines the general format
 def main():  # DONE
@@ -37,7 +76,7 @@ def col_1_content():  # DONE
     add_person()
 
 
-def add_person():  # WAITING FOR DATABASE INTRODUCTION
+def add_person():  # DONE
     """Function that adds a new person"""
     languages_list = [language.name for language in list(LANGUAGES)]
     with st.form("add_person", clear_on_submit=True):
@@ -54,22 +93,12 @@ def add_person():  # WAITING FOR DATABASE INTRODUCTION
         mentor_submitted = st.form_submit_button("Add")
     if mentor_submitted:
         if role == "Mentor":
-            DATA["mentors"].append(
-                {
-                    "name": name,
-                    "email": email,
-                    "generally_preferred_language": generally_preferred_language,
-                    "prefers_preferred_language": prefers_preferred_language,
-                }
+            mma_db.add_mentor(
+                role, name, email, generally_preferred_language, prefers_preferred_language
             )
         else:
-            DATA["mentees"].append(
-                {
-                    "name": name,
-                    "email": email,
-                    "generally_preferred_language": generally_preferred_language,
-                    "prefers_preferred_language": prefers_preferred_language,
-                }
+            mma_db.add_mentee(
+                role, name, email, generally_preferred_language, prefers_preferred_language
             )
 
 
