@@ -18,7 +18,12 @@ class MMDatabase:  # DONE
         self.mentees = self.db.table("mentees")
 
     def add_mentee(
-        self, role, name, email, generally_preferred_language, prefers_preferred_language
+        self,
+        role,
+        name,
+        email,
+        generally_preferred_language,
+        prefers_preferred_language,
     ):
         """Function that adds a mentee to the database"""
         self.mentees.insert(
@@ -32,7 +37,12 @@ class MMDatabase:  # DONE
         )
 
     def add_mentor(
-        self, role, name, email, generally_preferred_language, prefers_preferred_language
+        self,
+        role,
+        name,
+        email,
+        generally_preferred_language,
+        prefers_preferred_language,
     ):
         """Function that adds a mentor to the database"""
         self.mentors.insert(
@@ -102,11 +112,19 @@ def add_person():  # DONE
     if mentor_submitted:
         if role == "Mentor":
             mma_db.add_mentor(
-                role, name, email, generally_preferred_language, prefers_preferred_language
+                role,
+                name,
+                email,
+                generally_preferred_language,
+                prefers_preferred_language,
             )
         else:
             mma_db.add_mentee(
-                role, name, email, generally_preferred_language, prefers_preferred_language
+                role,
+                name,
+                email,
+                generally_preferred_language,
+                prefers_preferred_language,
             )
 
 
