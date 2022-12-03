@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9482f79175e1916d819ac9e490d680a37b4d1c8458fb26e4834616080ebf0278"
+            "sha256": "6626a906ec8eb354024443a60034290962b56914e52f2fd9e29c7ea5b5de05c2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -763,6 +763,30 @@
             ],
             "index": "pypi",
             "version": "==6.5.0"
+        },
+        "debugpy": {
+            "hashes": [
+                "sha256:143f79d0798a9acea21cd1d111badb789f19d414aec95fa6389cfea9485ddfb1",
+                "sha256:1caee68f7e254267df908576c0d0938f8f88af16383f172cb9f0602e24c30c01",
+                "sha256:2a39e7da178e1f22f4bc04b57f085e785ed1bcf424aaf318835a1a7129eefe35",
+                "sha256:3d9c31baf64bf959a593996c108e911c5a9aa1693a296840e5469473f064bcec",
+                "sha256:40e2a83d31a16b83666f19fa06d97b2cc311af88e6266590579737949971a17e",
+                "sha256:4ab5e938925e5d973f567d6ef32751b17d10f3be3a8c4d73c52f53e727f69bf1",
+                "sha256:563f148f94434365ec0ce94739c749aabf60bf67339e68a9446499f3582d62f3",
+                "sha256:62ba4179b372a62abf9c89b56997d70a4100c6dea6c2a4e0e4be5f45920b3253",
+                "sha256:67edf033f9e512958f7b472975ff9d9b7ff64bf4440f6f6ae44afdc66b89e6b6",
+                "sha256:6ae238943482c78867ac707c09122688efb700372b617ffd364261e5e41f7a2f",
+                "sha256:82229790442856962aec4767b98ba2559fe0998f897e9f21fb10b4fd24b6c436",
+                "sha256:86bd25f38f8b6c5d430a5e2931eebbd5f580c640f4819fcd236d0498790c7204",
+                "sha256:d2968e589bda4e485a9c61f113754a28e48d88c5152ed8e0b2564a1fadbe50a5",
+                "sha256:d5ab9bd3f4e7faf3765fd52c7c43c074104ab1e109621dc73219099ed1a5399d",
+                "sha256:d8df268e9f72fc06efc2e75e8dc8e2b881d6a397356faec26efb2ee70b6863b7",
+                "sha256:e62b8034ede98932b92268669318848a0d42133d857087a3b9cec03bb844c615",
+                "sha256:e886a1296cd20a10172e94788009ce74b759e54229ebd64a43fa5c2b4e62cd76",
+                "sha256:ea4bf208054e6d41749f17612066da861dff10102729d32c85b47f155223cf2b"
+            ],
+            "index": "pypi",
+            "version": "==1.6.4"
         },
         "dill": {
             "hashes": [
