@@ -61,15 +61,16 @@ class MMDatabase:  # DONE
 mma_db = MMDatabase()
 
 
-# Create a variable to hold the combinations
-if not st.session_state.combinations_assigned:
+# Create a session_state variable to hold the combinations
+if "combinations_assigned" not in st.session_state:
     st.session_state.combinations_assigned = []
-# Create a variable to hold the non-assigned people
-if not st.session_state.combinations_non_assigned:
+# Create a session_state variable to hold the non-assigned people
+if "combinations_non_assigned" not in st.session_state:
     st.session_state.combinations_non_assigned = []
-# Create a variable to hold the state of the generation button
-if not st.session_state.generation_button_disabled:
+# Create a session_state variable to hold the state of the generation button
+if "generation_button_disabled" not in st.session_state:
     st.session_state.generation_button_disabled = True
+
 
 # Define a main function that just defines the general format
 def main():  # DONE
@@ -152,16 +153,31 @@ def col_2_content():  # IN PROGRESS
         assign_mentors_mentees()
         st.session_state.generation_button_disabled = False
     st.write("## Mentors")
-    st.json(mma_db.mentors.all())
+    st.dataframe(
+        [
+            {
+                "Name": mentor["name"],
+                "E-Mail": mentor["email"],
+                "Preferred Language": mentor["generally_preferred_language"],
+            }
+            for mentor in mma_db.mentors.all()
+        ]
+    )
     st.write("## Mentees")
-    st.json(mma_db.mentees.all())
+    st.dataframe(
+        [
+            {
+                "Name": mentee["name"],
+                "E-Mail": mentee["email"],
+                "Preferred Language": mentee["generally_preferred_language"],
+            }
+            for mentee in mma_db.mentees.all()
+        ]
+    )
 
 
 def col_3_content():  # IN PROGRESS
     """Defines the content of the third column
-
-    # Progress bar that is initially set to 0 but then used during the assignment to
-        # display the progress.
 
     The following is only displayed after the assignment is performed:
     # Dataframe containing the names of the people in each combination (mentor, mentee).
@@ -177,9 +193,24 @@ def col_3_content():  # IN PROGRESS
     if generation_button_clicked:
         notify_participants()
     st.write("## combinations_assigned")
-    st.json(st.session_state.combinations_assigned)
+    st.dataframe(
+        [
+            {
+                "Mentor": mentor["name"],
+                "Mentee": mentee["name"],
+            }
+            for mentor, mentee in st.session_state.combinations_assigned
+        ]
+    )
     st.write("## combinations_non_assigned")
-    st.json(st.session_state.combinations_non_assigned)
+    st.dataframe(
+        [
+            {
+                "Name": participant["name"],
+            }
+            for participant in st.session_state.combinations_non_assigned
+        ]
+    )
 
 
 def filter_mentees(people_list, language):  # WAITING FOR TESTING
@@ -298,7 +329,7 @@ MM Project Team
 """
 
 
-def save_notification_to_file(file_name, notification): # DONE
+def save_notification_to_file(file_name, notification):  # DONE
     """Function that saves the specified notification to the specified file"""
     output_directory = "Exported notifications"
     if not os.path.exists(output_directory):
@@ -316,27 +347,27 @@ def notify_participants():  # DONE
     for mentor, mentee in st.session_state.combinations_assigned:
         # Save the mentor's notification
         save_notification_to_file(
-            file_name = mentor["name"],
-            notification = generate_participant_notification(
+            file_name=mentor["name"],
+            notification=generate_participant_notification(
                 participant_name=mentor["name"],
                 participant_email=mentor["email"],
                 participant_assigned=True,
                 other_participant_name=mentee["name"],
                 other_participant_email=mentee["email"],
                 other_participant_role=mentee["role"],
-            )
+            ),
         )
         # Save the mentee's notification
         save_notification_to_file(
-            file_name = mentee["name"],
-            notification = generate_participant_notification(
+            file_name=mentee["name"],
+            notification=generate_participant_notification(
                 participant_name=mentee["name"],
                 participant_email=mentee["email"],
                 participant_assigned=True,
                 other_participant_name=mentor["name"],
                 other_participant_email=mentor["email"],
                 other_participant_role=mentor["role"],
-            )
+            ),
         )
     # Generate and save a notification for every participant
     # in the list of remaining people
