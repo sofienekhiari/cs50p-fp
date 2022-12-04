@@ -1,15 +1,14 @@
 """MM Assigner: App that matches mentors and mentees"""
 
-# Import relevant modules
-# pylint: disable=import-error
+
 import os
 import random
 import streamlit as st
 from pycountry import languages as LANGUAGES
-from tinydb import TinyDB  # pylint: disable=unused-import
+from tinydb import TinyDB
 
 
-class MMDatabase:  # DONE
+class MMDatabase:
     """Class that interacts with the database"""
 
     def __init__(self):
@@ -25,7 +24,7 @@ class MMDatabase:  # DONE
         email,
         generally_preferred_language,
         prefers_preferred_language,
-    ):
+    ):  # pylint: disable=too-many-arguments
         """Function that adds a mentee to the database"""
         self.mentees.insert(
             {
@@ -44,7 +43,7 @@ class MMDatabase:  # DONE
         email,
         generally_preferred_language,
         prefers_preferred_language,
-    ):
+    ):  # pylint: disable=too-many-arguments
         """Function that adds a mentor to the database"""
         self.mentors.insert(
             {
@@ -57,10 +56,8 @@ class MMDatabase:  # DONE
         )
 
 
-# Initiate the database
+# Initialise the database
 mma_db = MMDatabase()
-
-
 # Create a session_state variable to hold the combinations
 if "combinations_assigned" not in st.session_state:
     st.session_state.combinations_assigned = []
@@ -72,10 +69,11 @@ if "generation_button_disabled" not in st.session_state:
     st.session_state.generation_button_disabled = True
 
 
-# Define a main function that just defines the general format
-def main():  # DONE
+def main():
     """Main function"""
+    # Set the page configuration
     set_page_config()
+    # Define the general layout of the app
     col_1, col_2, col_3 = st.columns(3)
     with col_1:
         col_1_content()
@@ -85,24 +83,25 @@ def main():  # DONE
         col_3_content()
 
 
-# Set the streamlit page configuration
-def set_page_config():  # DONE
-    """Set the main page configuration"""
+def set_page_config():
+    """Sets the main page configuration"""
     st.set_page_config(
         page_title="MM Assigner", layout="wide", initial_sidebar_state="collapsed"
     )
 
 
-def col_1_content():  # DONE
+def col_1_content():
     """Defines the content of the first column"""
     st.write("# MM Assigner")
     st.write("This app allows you to assigns mentors to mentees.")
     add_person()
 
 
-def add_person():  # DONE
-    """Function that adds a new person"""
+def add_person():
+    """Adds a new person"""
+    # Format the languages list
     languages_list = [language.name for language in list(LANGUAGES)]
+    # Generate the form
     with st.form("add_person", clear_on_submit=True):
         st.write("### Add a person")
         role = st.selectbox("Role", ["Mentor", "Mentee"])
@@ -114,8 +113,9 @@ def add_person():  # DONE
         prefers_preferred_language = st.checkbox(
             label="I would rather use my preferred language"
         )
-        mentor_submitted = st.form_submit_button("Add")
-    if mentor_submitted:
+        person_submitted = st.form_submit_button("Add")
+    # Generate hook for person submitted event
+    if person_submitted:
         if role == "Mentor":
             mma_db.add_mentor(
                 role,
@@ -134,24 +134,22 @@ def add_person():  # DONE
             )
 
 
-def col_2_content():  # IN PROGRESS
-    """Defines the content of the second column
-
-    The following is only displayed after the assignment is performed:
-    # Button to perform the assignment (disabled until there are at least two people).
-    # Data about the mentors and mentees displayed in a dataframe widget st.dataframe.
-
-    """
-    st.write("# Col 2 content")
+def col_2_content():
+    """Defines the content of the second column"""
+    # Only show the assignment button when there are at least two people,
+    # one of each role
     assigner_button_disabled = True
     if len(mma_db.mentees.all()) > 0 and len(mma_db.mentors.all()) > 0:
         assigner_button_disabled = False
     assigner_button_clicked = st.button(
         "Assign mentors & mentees", disabled=assigner_button_disabled
     )
+    # Generate hook for assigner button clicked event
     if assigner_button_clicked:
         assign_mentors_mentees()
+        # Enable the export button in the third column
         st.session_state.generation_button_disabled = False
+    # Display the list of people entered
     st.write("## Mentors")
     st.dataframe(
         [
@@ -176,23 +174,17 @@ def col_2_content():  # IN PROGRESS
     )
 
 
-def col_3_content():  # IN PROGRESS
-    """Defines the content of the third column
-
-    The following is only displayed after the assignment is performed:
-    # Dataframe containing the names of the people in each combination (mentor, mentee).
-    # Numbers of mentors and mentees (seperately) that were not assigned in a
-        # combination.
-    # Button that would allow the user to download the notification file.
-
-    """
-    st.write("# Col 3 content")
+def col_3_content():
+    """Defines the content of the third column"""
+    # Show the generation button
     generation_button_clicked = st.button(
         "Generate notifications", disabled=st.session_state.generation_button_disabled
     )
+    # Generate hook for generation button clicked event
     if generation_button_clicked:
         notify_participants()
-    st.write("## combinations_assigned")
+    # Display the result of the assignment
+    st.write("## Generated combinations")
     st.dataframe(
         [
             {
@@ -202,7 +194,7 @@ def col_3_content():  # IN PROGRESS
             for mentor, mentee in st.session_state.combinations_assigned
         ]
     )
-    st.write("## combinations_non_assigned")
+    st.write("## Non-assigned participants")
     st.dataframe(
         [
             {
@@ -213,8 +205,8 @@ def col_3_content():  # IN PROGRESS
     )
 
 
-def filter_mentees(people_list, language):  # WAITING FOR TESTING
-    """Filter the mentees list depending on the chosen language"""
+def filter_mentees(people_list, language):
+    """Filters the mentees list depending on the chosen language"""
     return [
         person
         for person in people_list
@@ -222,8 +214,8 @@ def filter_mentees(people_list, language):  # WAITING FOR TESTING
     ]
 
 
-def assign_mentors_mentees():  # WAITING FOR TESTING
-    """Function that assigns mentors to mentees"""
+def assign_mentors_mentees():
+    """Assigns mentors to mentees"""
     # Get the list of mentors
     mentors_list = mma_db.mentors.all()
     # Get the list of mentees
@@ -265,26 +257,24 @@ def assign_mentors_mentees():  # WAITING FOR TESTING
     st.session_state.combinations_non_assigned = mentors_list + mentees_list
 
 
-def generate_participant_notification(  # pylint: disable=too-many-arguments
+def generate_participant_notification(
     participant_name,
     participant_email,
     participant_assigned,
     other_participant_name,
     other_participant_email,
     other_participant_role,
-):
-    """Function that generates the appropriate notification for every participant"""
-
+):  # pylint: disable=too-many-arguments
+    """Generates the appropriate notification for every participant"""
     # Generate the message subject
     message_subject = ""
     if participant_assigned:
-        message_subject = f"🎉 Congrats {participant_name}, you were assigned a {other_participant_role.lower()} 🎊"
+        message_subject = f"🎉 Congrats {participant_name}, you were assigned a {other_participant_role.lower()} 🎊"  # pylint: disable=line-too-long
     else:
         message_subject = (
             f"🔥 Hey {participant_name}, we've got news about the MM program!"
         )
-
-    # Generate the message content
+    # Generate the message specific content
     specific_message_content = ""
     if participant_assigned:
         specific_message_content = f"""
@@ -296,6 +286,7 @@ You can contact them on the following e-mail address: {other_participant_email}.
 Due to a shortage of participants, you were not assigned a {other_participant_role.lower()}.
 You can still however join one of your peers/friends with their {other_participant_role.lower()} if you want.        
 """
+    # Generate the output
     return f"""
 +------------------+
 | PARTICIPANT NAME |
@@ -325,23 +316,24 @@ Don't hesitate to contact us if you have any question.
 
 Kind regards,
 MM Project Team
-
 """
 
 
-def save_notification_to_file(file_name, notification):  # DONE
-    """Function that saves the specified notification to the specified file"""
+def save_notification_to_file(file_name, notification):
+    """Saves the specified notification to the specified file"""
+    # Check the output directory
     output_directory = "Exported notifications"
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
+    # Save the data to the file
     with open(
         f"{output_directory}/{file_name}.txt", "w", encoding="utf-8"
     ) as output_file:
         output_file.write(notification)
 
 
-def notify_participants():  # DONE
-    """Function that generates the emails to send to the different participants"""
+def notify_participants():
+    """Generates the emails to send to the different participants"""
     # Generate and save a notification for every participant
     # in the list of combinations
     for mentor, mentee in st.session_state.combinations_assigned:
@@ -387,5 +379,5 @@ def notify_participants():  # DONE
         )
 
 
-if __name__ == "__main__":  # DONE
+if __name__ == "__main__":
     main()
