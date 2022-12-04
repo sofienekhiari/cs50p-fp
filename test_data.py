@@ -1,9 +1,45 @@
+"""File that contains the data used for the tests"""
+
 david_abendroth = {
     "name": "david abendroth",
     "email": "davidabendroth@dayrep.com",
     "generally_preferred_language": "English",
     "prefers_preferred_language": False,
 }
+
+DAVID_ABENDROTH_TRUE_MARIO_MOELLER = """
++------------------+
+| PARTICIPANT NAME |
++------------------+
+
+david abendroth
+
++-------------------+
+| PARTICIPANT EMAIL |
++-------------------+
+
+davidabendroth@dayrep.com
+
++-----------------+
+| MESSAGE SUBJECT |
++-----------------+
+
+🎉 Congrats david abendroth, you were assigned a mentee 🎊
+
++-----------------+
+| MESSAGE CONTENT |
++-----------------+
+
+Dear david abendroth,
+
+You were assigned mario moeller as a mentee.
+You can contact them on the following e-mail address: mariomoeller@teleworm.us.
+
+Don't hesitate to contact us if you have any question.
+
+Kind regards,
+MM Project Team
+"""
 
 maria_nacht = {
     "name": "maria nacht",
@@ -75,6 +111,40 @@ mathias_zimmermann = {
     "prefers_preferred_language": False,
 }
 
+MATHIAS_ZIMMERMANN_TRUE_MARIA_NACHT = """
++------------------+
+| PARTICIPANT NAME |
++------------------+
+
+mathias zimmermann
+
++-------------------+
+| PARTICIPANT EMAIL |
++-------------------+
+
+mathiaszimmermann@jourrapide.com
+
++-----------------+
+| MESSAGE SUBJECT |
++-----------------+
+
+🎉 Congrats mathias zimmermann, you were assigned a mentor 🎊
+
++-----------------+
+| MESSAGE CONTENT |
++-----------------+
+
+Dear mathias zimmermann,
+
+You were assigned maria nacht as a mentor.
+You can contact them on the following e-mail address: marianacht@jourrapide.com.
+
+Don't hesitate to contact us if you have any question.
+
+Kind regards,
+MM Project Team
+"""
+
 maria_gottschalk = {
     "name": "maria gottschalk",
     "email": "mariagottschalk@jourrapide.com",
@@ -137,3 +207,37 @@ jan_fuchs = {
     "generally_preferred_language": "Swiss German",
     "prefers_preferred_language": False,
 }
+
+JAN_FUCHS_FALSE = """
++------------------+
+| PARTICIPANT NAME |
++------------------+
+
+jan fuchs
+
++-------------------+
+| PARTICIPANT EMAIL |
++-------------------+
+
+janfuchs@dayrep.com
+
++-----------------+
+| MESSAGE SUBJECT |
++-----------------+
+
+🔥 Hey jan fuchs, we've got news about the MM program!
+
++-----------------+
+| MESSAGE CONTENT |
++-----------------+
+
+Dear jan fuchs,
+
+Due to a shortage of participants, you were not assigned a mentee.
+You can still however join one of your peers/friends with their mentee if you want.        
+
+Don't hesitate to contact us if you have any question.
+
+Kind regards,
+MM Project Team
+"""
